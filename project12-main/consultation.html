@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediPause - Consultation en ligne</title>
+    <!-- Inter Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">    
+    <!-- Tailwind CSS (Production) -->
+    <link href="./dist/output.css" rel="stylesheet">    
+    <!-- Flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_blue.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/fr.js"></script>
+    <!-- Stripe.js -->
+    <script src="https://js.stripe.com/v3/"></script>
+    
+    <!-- Form Logic -->
+    <script src="./js/form.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #E8FCFF;
+            color: #1e2a4a;
+        }
+        header {
+            background-color: #BAE9F7;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+        
+        /* Multi-step form styles */
+        .form-step {
+            transition: all 0.3s ease-in-out;
+        }
+        
+        .form-step.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .step-indicator.active {
+            font-weight: 600;
+        }
+        
+        .progress-bar {
+            transition: width 0.5s ease-in-out;
+        }
+        
+        /* Form control styles */
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(0, 185, 174, 0.25);
+        }
+        
+        input[type="checkbox"] {
+            cursor: pointer;
+            border-radius: 0.25rem;
+        }
+        
+        input[type="checkbox"]:checked {
+            background-color: #00B9AE;
+            border-color: #00B9AE;
+        }
+        
+        label {
+            cursor: pointer;
+        }
+        
+        /* Date picker custom styling */
+        .flatpickr-calendar {
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 139, 155, 0.12);
+            border: none;
+        }
+        
+        .flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange, .flatpickr-day.selected:hover, .flatpickr-day.startRange:hover, .flatpickr-day.endRange:hover {
+            background: #00B9AE;
+            border-color: #00B9AE;
+        }
+    </style>
+</head>
+<body class="bg-bg-light min-h-screen">
+    <header class="bg-[#BAE9F7] py-2 sm:py-3 md:py-4">
+        <div class="container mx-auto px-3 sm:px-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <a href="index.html" class="flex items-center">
+                    <img src="./assets/logo.png" alt="MediPause Logo" width="100" height="100" class="mr-3 object-contain">
+                    <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#1e2a4a] tracking-tight">MediPause</h1>
+                </a>
+            </div>
+            <!-- Mobile menu button -->
+            <button class="md:hidden flex items-center p-2 hover:scale-110 active:scale-95 transition-transform duration-200" aria-label="Menu principal" title="Menu principal">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-dark-text" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+                <span class="sr-only">Menu</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Multi Step Form Section -->
+    <section id="form-section" class="py-12 sm:py-16 bg-[#E8FCFF]">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg p-6 sm:p-8 md:p-10">
+                <!-- Form Title -->
+                <div class="text-center mb-8">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-dark-text">Consultez un médecin en ligne</h2>
+                    <p class="text-gray-600 mt-2">Décrivez vos symptômes pour une évaluation médicale professionnelle</p>
+                </div>
+                
+                <!-- Progress Bar -->
+                <div class="w-full h-2 bg-gray-200 rounded-full mb-8">
+                    <div class="progress-bar h-full bg-[#00B9AE] rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+                
+                <!-- Step Indicators -->                
+                <div class="flex justify-between mb-8 overflow-x-auto pb-2">                    
+                    <button class="step-indicator flex flex-col items-center text-primary-teal mx-2" data-step="1" aria-label="Étape 1: Personnel" title="Étape 1: Personnel">
+                        <div class="w-8 h-8 rounded-full border-2 border-[#00B9AE] flex items-center justify-center mb-1">1</div>
+                        <span class="text-xs">Personnel</span>
+                    </button>
+                    <button class="step-indicator flex flex-col items-center text-gray-400 mx-2" data-step="2" aria-label="Étape 2: Symptômes" title="Étape 2: Symptômes">
+                        <div class="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center mb-1">2</div>
+                        <span class="text-xs">Symptômes</span>
+                    </button>
+                    <button class="step-indicator flex flex-col items-center text-gray-400 mx-2" data-step="3" aria-label="Étape 3: Dates" title="Étape 3: Dates">
+                        <div class="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center mb-1">3</div>
+                        <span class="text-xs">Dates</span>
+                    </button>
+                    <button class="step-indicator flex flex-col items-center text-gray-400 mx-2" data-step="4" aria-label="Étape 4: Médical" title="Étape 4: Informations médicales">
+                        <div class="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center mb-1">4</div>
+                        <span class="text-xs">Médical</span>
+                    </button>
+                    <button class="step-indicator flex flex-col items-center text-gray-400 mx-2" data-step="5" aria-label="Étape 5: Contact" title="Étape 5: Contact">
+                        <div class="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center mb-1">5</div>
+                        <span class="text-xs">Contact</span>
+                    </button>
+                    <button class="step-indicator flex flex-col items-center text-gray-400 mx-2" data-step="6" aria-label="Étape 6: Consultation" title="Étape 6: Demande de consultation">
+                        <div class="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center mb-1">6</div>
+                        <span class="text-xs">Consultation</span>
+                    </button>
+                    <button class="step-indicator flex flex-col items-center text-gray-400 mx-2" data-step="7" aria-label="Étape 7: Vérification" title="Étape 7: Vérification">
+                        <div class="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center mb-1">7</div>
+                        <span class="text-xs">Vérification</span>
+                    </button>
+                    <button class="step-indicator flex flex-col items-center text-gray-400 mx-2" data-step="8" aria-label="Étape 8: Paiement" title="Étape 8: Paiement">
+                        <div class="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center mb-1">8</div>
+                        <span class="text-xs">Paiement</span>
+                    </button>
+                </div>
+                
+                <!-- Form -->
+                <form id="multi-step-form" class="w-full max-w-3xl mx-auto">
+                    <!-- Step 1: Personal Info -->
+                    <div class="form-step active" data-step="1">
+                        <h3 class="text-xl font-bold mb-6 text-dark-text">Vos informations personnelles</h3>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                            <div>
+                                <label for="firstname" class="block text-sm font-medium text-gray-700 mb-1">Prénom</label>
+                                <input type="text" id="firstname" name="firstname" placeholder="Votre prénom" 
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00B9AE] focus:border-transparent" required>
+                            </div>
+                            <div>
+                                <label for="lastname" class="block text-sm font-medium text-gray-700 mb-1">Nom</label>
+                                <input type="text" id="lastname" name="lastname" placeholder="Votre nom" 
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00B9AE] focus:border-transparent" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="birthdate" class="block text-sm font-medium text-gray-700 mb-1">Date de naissance</label>
+                            <input type="text" id="birthdate" name="birthdate" placeholder="JJ/MM/AAAA"
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00B9AE] focus:border-transparent" required>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="address" class="block text-sm font-medium text-gray-700 mb-1">Adresse</label>
+                            <input type="text" id="address" name="address" placeholder="Votre adresse complète" 
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00B9AE] focus:border-transparent" required>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="profession" class="block text-sm font-medium text-gray-700 mb-1">Profession</label>
+                            <input type="text" id="profession" name="profession" placeholder="Votre profession" 
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00B9AE] focus:border-transparent" required>
+                        </div>
+                          <div class="flex justify-end">
+                            <button type="button" class="next-step bg-[#00B9AE] text-white px-6 py-2 rounded-lg hover:bg-[#00a59b] transition duration-200" aria-label="Passer à l'étape suivante" title="Suivant">
+                                Suivant
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 2: Symptoms -->
+                    <div class="form-step hidden" data-step="2">
+                        <h3 class="text-xl font-bold mb-6 text-dark-text">Vos symptômes</h3>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-3">Sélectionnez vos symptômes</label>
+                            
+                            <div class="space-y-3">
+                                <div class="flex items-center">
+                                    <input id="symptom-fatigue" type="checkbox" name="symptoms[]" value="fatigue" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE]">
+                                    <label for="symptom-fatigue" class="ml-2 block text-sm text-gray-700">Fatigue intense</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input id="symptom-headache" type="checkbox" name="symptoms[]" value="headache" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE]">
+                                    <label for="symptom-headache" class="ml-2 block text-sm text-gray-700">Maux de tête</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input id="symptom-fever" type="checkbox" name="symptoms[]" value="fever" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE]">
+                                    <label for="symptom-fever" class="ml-2 block text-sm text-gray-700">Fièvre</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input id="symptom-cough" type="checkbox" name="symptoms[]" value="cough" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE]">
+                                    <label for="symptom-cough" class="ml-2 block text-sm text-gray-700">Toux</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input id="symptom-nausea" type="checkbox" name="symptoms[]" value="nausea" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE]">
+                                    <label for="symptom-nausea" class="ml-2 block text-sm text-gray-700">Nausées / Vomissements</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input id="symptom-other" type="checkbox" name="symptoms[]" value="other" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE]">
+                                    <label for="symptom-other" class="ml-2 block text-sm text-gray-700">Autres symptômes</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="other-symptoms-container" class="mb-6 hidden">
+                            <label for="other-symptoms" class="block text-sm font-medium text-gray-700 mb-1">Précisez vos autres symptômes</label>
+                            <textarea id="other-symptoms" name="otherSymptoms" rows="3" placeholder="Décrivez vos autres symptômes ici..."
+                                      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00B9AE] focus:border-transparent"></textarea>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="symptom-duration" class="block text-sm font-medium text-gray-700 mb-1">Depuis combien de temps ressentez-vous ces symptômes ?</label>
+                            <select id="symptom-duration" name="symptomDuration" 
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00B9AE] focus:border-transparent" required>
+                                <option value="">Sélectionnez une durée</option>
+                                <option value="1-day">Depuis aujourd'hui</option>
+                                <option value="2-3-days">Depuis 2-3 jours</option>
+                                <option value="week">Depuis environ une semaine</option>
+                                <option value="more-than-week">Depuis plus d'une semaine</option>
+                            </select>
+                        </div>
+                          <div class="flex justify-between">
+                            <button type="button" class="prev-step border border-gray-300 text-gray-600 px-6 py-2 rounded-lg hover:bg-gray-50 transition duration-200" aria-label="Retourner à l'étape précédente" title="Précédent">
+                                Précédent
+                            </button>
+                            <button type="button" class="next-step bg-[#00B9AE] text-white px-6 py-2 rounded-lg hover:bg-[#00a59b] transition duration-200" aria-label="Passer à l'étape suivante" title="Suivant">
+                                Suivant
+                            </button>
+                        </div>
+                    </div>
+                      <!-- Step 3: Date Range -->
+                    <div class="form-step hidden" data-step="3">
+                        <h3 class="text-xl font-bold mb-6 text-dark-text">Période d'arrêt souhaitée</h3>
+                        
+                        <div class="space-y-4 mb-6">
+                            <div class="flex items-center">
+                                <input id="long-leave" type="checkbox" name="longLeave" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE] price-option" data-label="Arrêt longue durée">
+                                <label for="long-leave" class="ml-2 block text-sm text-gray-700">
+                                    Arrêt supérieur à 7 jours
+                                    <span class="text-xs text-[#00B9AE] ml-2">(+4.99€)</span>
+                                </label>
+                            </div>
+                            <div class="flex items-center">
+                                <input id="past-date" type="checkbox" name="pastDate" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE] price-option" data-label="Date rétroactive">
+                                <label for="past-date" class="ml-2 block text-sm text-gray-700">
+                                    Choisir une date dans le passé (jusqu'à 14 jours)
+                                    <span class="text-xs text-[#00B9AE] ml-2">(+4.99€)</span>
+                                </label>
+                            </div>
+                            <div class="flex items-center">
+                                <input id="complex-case" type="checkbox" name="complexCase" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE] price-option" data-label="Cas complexe">
+                                <label for="complex-case" class="ml-2 block text-sm text-gray-700">
+                                    Cas complexe (plusieurs maladies, symptômes chroniques)
+                                    <span class="text-xs text-[#00B9AE] ml-2">(+9.99€)</span>
+                                </label>
+                            </div>
+                            <div class="flex items-center">
+                                <input id="urgent-option" type="checkbox" name="urgentOption" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE] price-option" data-label="Traitement urgent">
+                                <label for="urgent-option" class="ml-2 block text-sm text-gray-700">
+                                    Traitement urgent (sous 2h)
+                                    <span class="text-xs text-[#00B9AE] ml-2">(+14.99€)</span>
+                                </label>
+                            </div>
+                            <div class="flex items-center">
+                                <input id="ssn-option" type="checkbox" name="ssnOption" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE] price-option" data-label="Numéro de sécurité sociale">
+                                <label for="ssn-option" class="ml-2 block text-sm text-gray-700">
+                                    Inclure mon numéro de sécurité sociale
+                                    <span class="text-xs text-[#00B9AE] ml-2">(+4.99€)</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div id="ssn-container" class="mb-6 hidden">
+                            <label for="ssn-number" class="block text-sm font-medium text-gray-700 mb-1">Numéro de sécurité sociale</label>
+                            <input type="text" id="ssn-number" name="ssnNumber" placeholder="15 chiffres"
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00B9AE] focus:border-transparent">
+                            <p class="mt-1 text-xs text-gray-500">Format: 1 XX XX XX XXX XXX XX</p>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <label for="start-date" class="block text-sm font-medium text-gray-700 mb-1">Date de début</label>
+                                <input type="text" id="start-date" name="startDate" placeholder="JJ/MM/AAAA" required
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00B9AE] focus:border-transparent">
+                            </div>
+                            <div>
+                                <label for="end-date" class="block text-sm font-medium text-gray-700 mb-1">Date de fin</label>
+                                <input type="text" id="end-date" name="endDate" placeholder="JJ/MM/AAAA" required
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00B9AE] focus:border-transparent">
+                            </div>
+                        </div>
+                        
+                        <div class="bg-blue-50 rounded-lg p-3 mb-4 hidden">
+                            <span class="text-sm text-blue-800">
+                                Durée totale: <span id="days-count">0</span> jours
+                            </span>
+                        </div>
+                        
+                        <div id="date-warning" class="text-red-500 text-sm mb-6 hidden"></div>
+                          <div class="flex justify-between">
+                            <button type="button" class="prev-step border border-gray-300 text-gray-600 px-6 py-2 rounded-lg hover:bg-gray-50 transition duration-200" aria-label="Retourner à l'étape précédente" title="Précédent">
+                                Précédent
+                            </button>
+                            <button type="button" class="next-step bg-[#00B9AE] text-white px-6 py-2 rounded-lg hover:bg-[#00a59b] transition duration-200" aria-label="Passer à l'étape suivante" title="Suivant">
+                                Suivant
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 4: Medical Information -->
+                    <div class="form-step hidden" data-step="4">
+                        <h3 class="text-xl font-bold mb-6 text-dark-text">Informations médicales</h3>
+                        
+                        <div class="mb-6">
+                            <label for="health-center" class="block text-sm font-medium text-gray-700 mb-1">Centre de santé habituel</label>
+                            <select id="health-center" name="healthCenter" 
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00B9AE] focus:border-transparent" required>
+                                <option value="">Sélectionner</option>
+                                <option value="general-hospital">Hôpital général</option>
+                                <option value="clinic">Clinique privée</option>
+                                <option value="family-doctor">Médecin de famille</option>
+                                <option value="specialist">Spécialiste</option>
+                                <option value="other">Autre</option>
+                            </select>
+                        </div>
+                        
+                        <div id="other-health-center" class="mb-6 hidden">
+                            <label for="other-health-center-name" class="block text-sm font-medium text-gray-700 mb-1">Précisez votre centre de santé</label>
+                            <input type="text" id="other-health-center-name" name="otherHealthCenter" placeholder="Nom du centre de santé"
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00B9AE] focus:border-transparent">
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="medical-history" class="block text-sm font-medium text-gray-700 mb-1">Antécédents médicaux pertinents <span class="text-xs text-gray-500">(optionnel)</span></label>
+                            <textarea id="medical-history" name="medicalHistory" rows="3" placeholder="Décrivez vos antécédents médicaux pertinents"
+                                      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00B9AE] focus:border-transparent"></textarea>
+                        </div>
+                          <div class="flex justify-between">
+                            <button type="button" class="prev-step border border-gray-300 text-gray-600 px-6 py-2 rounded-lg hover:bg-gray-50 transition duration-200" aria-label="Retourner à l'étape précédente" title="Précédent">
+                                Précédent
+                            </button>
+                            <button type="button" class="next-step bg-[#00B9AE] text-white px-6 py-2 rounded-lg hover:bg-[#00a59b] transition duration-200" aria-label="Passer à l'étape suivante" title="Suivant">
+                                Suivant
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 5: Contact Information -->
+                    <div class="form-step hidden" data-step="5">
+                        <h3 class="text-xl font-bold mb-6 text-dark-text">Informations de contact</h3>
+                        
+                        <div class="mb-6">
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Adresse e-mail</label>
+                            <input type="email" id="email" name="email" placeholder="votre-email@example.com" 
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00B9AE] focus:border-transparent" required>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Numéro de téléphone</label>
+                            <input type="tel" id="phone" name="phone" placeholder="Votre numéro de téléphone" 
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00B9AE] focus:border-transparent" required>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <div class="flex items-start">
+                                <div class="flex items-center h-5">
+                                    <input id="marketing-consent" type="checkbox" name="marketingConsent" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE]">
+                                </div>
+                                <div class="ml-3 text-sm">
+                                    <label for="marketing-consent" class="text-gray-700">J'accepte de recevoir des informations sur les services MediPause</label>
+                                </div>
+                            </div>
+                        </div>
+                          <div class="flex justify-between">
+                            <button type="button" class="prev-step border border-gray-300 text-gray-600 px-6 py-2 rounded-lg hover:bg-gray-50 transition duration-200" aria-label="Retourner à l'étape précédente" title="Précédent">
+                                Précédent
+                            </button>
+                            <button type="button" class="next-step bg-[#00B9AE] text-white px-6 py-2 rounded-lg hover:bg-[#00a59b] transition duration-200" aria-label="Passer à l'étape suivante" title="Suivant">
+                                Suivant
+                            </button>
+                        </div>
+                    </div>
+                      <!-- Step 6: Doctor Consultation Request -->
+                    <div class="form-step hidden" data-step="6">
+                        <h3 class="text-xl font-bold mb-6 text-dark-text">Demande de consultation médicale</h3>
+                        
+                        <div class="bg-[#F0FDFA] p-5 rounded-lg mb-6">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 mr-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#00B9AE]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                                <p class="text-sm text-gray-700">
+                                    En soumettant cette demande, vous sollicitez une consultation médicale en ligne. Un médecin évaluera votre situation et décidera de la pertinence de délivrer un certificat médical.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="additional-notes" class="block text-sm font-medium text-gray-700 mb-2">Informations complémentaires pour le médecin (optionnel)</label>
+                            <textarea id="additional-notes" name="additionalNotes" rows="3" placeholder="Toute information supplémentaire qui pourrait aider le médecin dans son évaluation"
+                                      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00B9AE] focus:border-transparent"></textarea>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <div class="flex items-start">
+                                <div class="flex items-center h-5">
+                                    <input id="terms-agree" type="checkbox" name="termsAgree" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE]" required>
+                                </div>
+                                <div class="ml-3 text-sm">
+                                    <label for="terms-agree" class="text-gray-700">J'ai lu et j'accepte les <a href="#" class="text-[#00B9AE] hover:underline">conditions d'utilisation</a> et la <a href="#" class="text-[#00B9AE] hover:underline">politique de confidentialité</a></label>
+                                </div>
+                            </div>
+                        </div>
+                          <div class="flex justify-between">
+                            <button type="button" class="prev-step border border-gray-300 text-gray-600 px-6 py-2 rounded-lg hover:bg-gray-50 transition duration-200" aria-label="Retourner à l'étape précédente" title="Précédent">
+                                Précédent
+                            </button>
+                            <button type="button" class="next-step bg-[#00B9AE] text-white px-6 py-2 rounded-lg hover:bg-[#00a59b] transition duration-200" aria-label="Passer à l'étape suivante" title="Suivant">
+                                Suivant
+                            </button>
+                        </div>
+                    </div>
+                      <!-- Step 7: Verification -->
+                    <div class="form-step hidden" data-step="7">
+                        <h3 class="text-xl font-bold mb-6 text-dark-text">Vérification de la demande</h3>
+                        
+                        <div class="bg-gray-50 rounded-lg p-6 mb-6">
+                            <div class="flex items-start mb-5">
+                                <div class="flex-shrink-0 mr-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#00B9AE]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                                <p class="text-sm text-gray-700">
+                                    Veuillez vérifier attentivement les informations de votre demande avant de continuer vers le paiement.
+                                </p>
+                            </div>
+                            
+                            <h4 class="font-medium text-lg mb-4">Récapitulatif de la demande</h4>
+                            
+                            <div class="space-y-3">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Consultation médicale de base</span>
+                                    <span class="font-medium">29,99 €</span>
+                                </div>
+                                <div class="justify-between long-leave-price hidden">
+                                    <span class="text-gray-600">Arrêt supérieur à 7 jours</span>
+                                    <span class="font-medium">4,99 €</span>
+                                </div>
+                                <div class="justify-between past-date-price hidden">
+                                    <span class="text-gray-600">Date dans le passé</span>
+                                    <span class="font-medium">4,99 €</span>
+                                </div>
+                                <div class="justify-between complex-case-price hidden">
+                                    <span class="text-gray-600">Cas complexe</span>
+                                    <span class="font-medium">9,99 €</span>
+                                </div>
+                                <div class="justify-between urgent-option-price hidden">
+                                    <span class="text-gray-600">Traitement urgent</span>
+                                    <span class="font-medium">14,99 €</span>
+                                </div>
+                                <div class="justify-between ssn-option-price hidden">
+                                    <span class="text-gray-600">Numéro de sécurité sociale</span>
+                                    <span class="font-medium">4,99 €</span>
+                                </div>
+                                <div class="justify-between duration-price hidden">
+                                    <span class="text-gray-600">Supplément durée</span>
+                                    <span class="duration-price-amount font-medium">0,00 €</span>
+                                </div>
+                                <div class="flex justify-between font-bold mt-2 pt-2 border-t border-gray-200">
+                                    <span>Total</span>
+                                    <span id="total-price">29,99 €</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-5 mb-6">
+                            <h4 class="font-medium text-blue-800 mb-3">Important</h4>
+                            <p class="text-sm text-blue-800 mb-3">
+                                En validant cette demande, vous confirmez que :
+                            </p>
+                            <ul class="list-disc list-inside text-sm text-blue-800 space-y-2 mb-4">
+                                <li>Les informations fournies sont exactes et complètes</li>
+                                <li>Vous êtes conscient(e) que cette demande sera examinée par un médecin</li>
+                                <li>Le paiement ne sera prélevé qu'après validation médicale</li>
+                                <li>Le médecin peut refuser de délivrer le certificat s'il juge votre état non compatible</li>
+                            </ul>
+                            <div class="flex items-center">
+                                <input id="terms-agree" type="checkbox" name="termsAgree" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE]" required>
+                                <label for="terms-agree" class="ml-2 block text-sm text-blue-800">
+                                    J'ai lu et j'accepte les conditions ci-dessus
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Store calculated price in hidden field -->
+                        <input type="hidden" id="final-price" name="finalPrice" value="29.99">
+                        
+                        <div class="flex justify-between">
+                            <button type="button" class="prev-step border border-gray-300 text-gray-600 px-6 py-2 rounded-lg hover:bg-gray-50 transition duration-200" aria-label="Retourner à l'étape précédente" title="Précédent">
+                                Précédent
+                            </button>
+                            <button type="button" id="validate-form" class="bg-[#00B9AE] text-white px-6 py-2 rounded-lg hover:bg-[#00a59b] transition duration-200" aria-label="Continuer vers le paiement" title="Continuer vers le paiement">
+                                Continuer vers le paiement
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 8: Payment -->
+                    <div class="form-step hidden" data-step="8">
+                        <h3 class="text-xl font-bold mb-6 text-dark-text">Paiement de la consultation</h3>
+                        
+                        <div class="bg-gray-50 rounded-lg p-6 mb-6">
+                            <div class="mb-5">
+                                <h4 class="font-medium text-lg mb-2">Détails de votre demande</h4>
+                                <div class="space-y-2 text-sm text-gray-700">
+                                    <p><strong>Patient:</strong> <span id="user-summary">--</span></p>
+                                    <p><strong>Période:</strong> <span id="date-summary">--</span></p>
+                                    <p><strong>Options:</strong> <span id="options-summary">--</span></p>
+                                    <div id="ssn-summary-container" class="hidden">
+                                        <p><strong>Numéro de sécurité sociale:</strong> <span id="ssn-summary">--</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start mb-5 py-3 border-t border-gray-200">
+                                <div class="flex-shrink-0 mr-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#00B9AE]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                                <p class="text-sm text-gray-700">
+                                    Votre demande sera examinée par un médecin certifié. Le paiement ne sera prélevé qu'après validation médicale et délivrance du certificat.
+                                </p>
+                            </div>
+                            
+                            <div class="flex justify-between font-bold mt-2 pt-2 border-t border-gray-200">
+                                <span>Total</span>
+                                <span id="final-total-price">29,99 €</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-center mb-6">
+                            <div class="flex space-x-3">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Stripe_Logo%2C_revised_2016.svg/2560px-Stripe_Logo%2C_revised_2016.svg.png" alt="Stripe" class="h-8">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png" alt="Visa" class="h-8">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1280px-Mastercard-logo.svg.png" alt="Mastercard" class="h-8">
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-between">
+                            <button type="button" class="prev-step border border-gray-300 text-gray-600 px-6 py-2 rounded-lg hover:bg-gray-50 transition duration-200" aria-label="Retourner à l'étape précédente" title="Précédent">
+                                Précédent
+                            </button>
+                            <button type="button" id="submit-payment" class="bg-[#00B9AE] text-white px-6 py-2 rounded-lg hover:bg-[#00a59b] transition duration-200" aria-label="Procéder au paiement" title="Procéder au paiement">
+                                Procéder au paiement
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Success Modal -->
+    <div id="payment-success-modal" class="fixed inset-0 items-center justify-center z-50 hidden">
+        <div class="absolute inset-0 bg-black opacity-50"></div>
+        <div class="bg-white rounded-lg p-8 max-w-md z-10 relative">
+            <button id="close-modal" class="absolute top-3 right-3 text-gray-400 hover:text-gray-600" aria-label="Fermer" title="Fermer">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+                <span class="sr-only">Fermer</span>
+            </button>
+            
+            <div class="text-center">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                </div>
+                  
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Demande envoyée avec succès!</h3>
+                <p class="text-gray-600 mb-4">
+                    Votre demande de consultation a bien été enregistrée et sera examinée par un médecin certifié dans les plus brefs délais.
+                </p>
+                <p class="text-gray-600 mb-6">
+                    En cas de validation, votre arrêt maladie certifié sera envoyé à votre adresse e-mail et disponible dans votre espace personnel.
+                </p>
+                  
+                <button class="bg-[#00B9AE] text-white px-6 py-2 rounded-lg hover:bg-[#00a59b] transition duration-200" onclick="document.getElementById('payment-success-modal').classList.add('hidden')" aria-label="Fermer la fenêtre de confirmation" title="Fermer">
+                    Fermer
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-[#F3F3F3] py-8 mt-12">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-gray-600 text-sm">
+                &copy; 2025 MediPause - Tous droits réservés
+            </p>
+            <div class="mt-4 flex justify-center space-x-4">
+                <a href="#" class="text-sm text-gray-600 hover:text-[#00B9AE]">Mentions légales</a>
+                <a href="#" class="text-sm text-gray-600 hover:text-[#00B9AE]">Politique de confidentialité</a>
+                <a href="#" class="text-sm text-gray-600 hover:text-[#00B9AE]">Conditions d'utilisation</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize form on page load
+            if (typeof initForm === 'function') {
+                initForm();
+            }
+        });
+    </script>
+</body>
+</html>

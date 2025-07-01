@@ -1,0 +1,38 @@
+/* 
+ * The @tailwind directives are specific to Tailwind CSS and will be processed by PostCSS. 
+ * These will show as "Unknown at rule" errors in standard CSS validators and some IDEs,
+ * but this is expected and will work correctly when processed by the Tailwind build process.
+ * Install the "Tailwind CSS IntelliSense" extension (bradlc.vscode-tailwindcss) in VS Code
+ * for proper syntax highlighting and autocomplete support.
+ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Browser compatibility fixes */
+@layer base {
+  html, * {
+    -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+}
+
+/* Custom styles can go here */
+#form-section {
+  transition: all 0.5s ease-in-out;
+}
+
+#form-section.hidden {
+  display: none;
+}
+
+/* Examples of custom utilities using @layer:
+@layer utilities {
+  .custom-class {
+    @apply bg-blue-500 text-white px-4 py-2 rounded;
+  }
+}
+*/
