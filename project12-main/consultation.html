@@ -138,28 +138,32 @@
                         <div class="w-8 h-8 rounded-full border-2 border-[#00B9AE] flex items-center justify-center mb-1">1</div>
                         <span class="text-xs">Personnel</span>
                     </button>
-                    <button class="step-indicator flex flex-col items-center text-gray-400 mx-2" data-step="2" aria-label="Étape 2: Symptômes" title="Étape 2: Symptômes">
+                    <button class="step-indicator flex flex-col items-center text-gray-400 mx-2" data-step="2" aria-label="Étape 2: Maladie" title="Étape 2: Maladie">
                         <div class="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center mb-1">2</div>
+                        <span class="text-xs">Maladie</span>
+                    </button>
+                    <button class="step-indicator flex flex-col items-center text-gray-400 mx-2" data-step="3" aria-label="Étape 3: Symptômes" title="Étape 3: Symptômes">
+                        <div class="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center mb-1">3</div>
                         <span class="text-xs">Symptômes</span>
                     </button>
-                    <button class="step-indicator flex flex-col items-center text-gray-400 mx-2" data-step="3" aria-label="Étape 3: Dates" title="Étape 3: Dates">
-                        <div class="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center mb-1">3</div>
+                    <button class="step-indicator flex flex-col items-center text-gray-400 mx-2" data-step="4" aria-label="Étape 4: Dates" title="Étape 4: Dates">
+                        <div class="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center mb-1">4</div>
                         <span class="text-xs">Dates</span>
                     </button>
-                    <button class="step-indicator flex flex-col items-center text-gray-400 mx-2" data-step="4" aria-label="Étape 4: Médical" title="Étape 4: Informations médicales">
-                        <div class="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center mb-1">4</div>
+                    <button class="step-indicator flex flex-col items-center text-gray-400 mx-2" data-step="5" aria-label="Étape 5: Médical" title="Étape 5: Informations médicales">
+                        <div class="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center mb-1">5</div>
                         <span class="text-xs">Médical</span>
                     </button>
-                    <button class="step-indicator flex flex-col items-center text-gray-400 mx-2" data-step="5" aria-label="Étape 5: Contact" title="Étape 5: Contact">
-                        <div class="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center mb-1">5</div>
+                    <button class="step-indicator flex flex-col items-center text-gray-400 mx-2" data-step="6" aria-label="Étape 6: Contact" title="Étape 6: Contact">
+                        <div class="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center mb-1">6</div>
                         <span class="text-xs">Contact</span>
                     </button>
-                    <button class="step-indicator flex flex-col items-center text-gray-400 mx-2" data-step="6" aria-label="Étape 6: Vérification" title="Étape 6: Vérification">
-                        <div class="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center mb-1">6</div>
+                    <button class="step-indicator flex flex-col items-center text-gray-400 mx-2" data-step="7" aria-label="Étape 7: Vérification" title="Étape 7: Vérification">
+                        <div class="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center mb-1">7</div>
                         <span class="text-xs">Vérification</span>
                     </button>
-                    <button class="step-indicator flex flex-col items-center text-gray-400 mx-2" data-step="7" aria-label="Étape 7: Paiement" title="Étape 7: Paiement">
-                        <div class="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center mb-1">7</div>
+                    <button class="step-indicator flex flex-col items-center text-gray-400 mx-2" data-step="8" aria-label="Étape 8: Paiement" title="Étape 8: Paiement">
+                        <div class="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center mb-1">8</div>
                         <span class="text-xs">Paiement</span>
                     </button>
                 </div>
@@ -196,9 +200,16 @@
                         </div>
                         
                         <div class="mb-6">
-                            <label for="profession" class="block text-sm font-medium text-gray-700 mb-1">Profession</label>
-                            <input type="text" id="profession" name="profession" placeholder="Votre profession" 
-                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00B9AE] focus:border-transparent" required>
+                            <label for="profession" class="block text-sm font-medium text-gray-700 mb-1">Situation professionnelle</label>
+                            <select id="profession" name="profession" 
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00B9AE] focus:border-transparent" required>
+                                <option value="">Sélectionnez votre situation</option>
+                                <option value="activite-salariee">Activité salariée</option>
+                                <option value="profession-independante">Profession indépendante</option>
+                                <option value="fonctionnaire">Fonctionnaire</option>
+                                <option value="activite-non-salariee-agricole">Activité non salariée agricole</option>
+                                <option value="sans-emploi">Sans emploi</option>
+                            </select>
                         </div>
                           <div class="flex justify-end">
                             <button type="button" class="next-step bg-[#00B9AE] text-white px-6 py-2 rounded-lg hover:bg-[#00a59b] transition duration-200" aria-label="Passer à l'étape suivante" title="Suivant">
@@ -207,37 +218,176 @@
                         </div>
                     </div>
                     
-                    <!-- Step 2: Symptoms -->
+                    <!-- Step 2: Presumed Illness -->
                     <div class="form-step hidden" data-step="2">
-                        <h3 class="text-xl font-bold mb-6 text-dark-text">Vos symptômes</h3>
+                        <h3 class="text-xl font-bold mb-6 text-dark-text">Maladie présumée</h3>
+                        
+                        <div class="mb-6">
+                            <label for="presumed-illness" class="block text-sm font-medium text-gray-700 mb-3">Sélectionnez la maladie présumée</label>
+                            <select id="presumed-illness" name="presumedIllness" 
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00B9AE] focus:border-transparent" required>
+                                <option value="">Sélectionnez une maladie</option>
+                                <option value="rhume">Rhume</option>
+                                <option value="gastro-enterite">Gastro-entérite</option>
+                                <option value="symptome-covid">Symptôme Covid</option>
+                                <option value="stress">Stress</option>
+                                <option value="migraine">Migraine</option>
+                                <option value="mal-de-dos">Mal de dos</option>
+                                <option value="douleurs-menstruelles">Douleurs menstruelles</option>
+                                <option value="cystite">Cystite</option>
+                                <option value="blessures">Blessures</option>
+                                <option value="douleurs-abdominales">Douleurs abdominales / pelviennes</option>
+                                <option value="hypertension">Hypertension</option>
+                                <option value="allergie">Allergie</option>
+                                <option value="courbatures">Courbatures</option>
+                                <option value="problemes-dentaires">Problèmes dentaires</option>
+                                <option value="epuisement-physique">Épuisement physique</option>
+                                <option value="gastrite">Gastrite</option>
+                                <option value="problemes-articulaire">Problèmes articulaire</option>
+                                <option value="evenement-deuil">Évènement : deuil, crise, etc.</option>
+                                <option value="depression">Dépression</option>
+                                <option value="bronchite">Bronchite</option>
+                                <option value="pneumonie">Pneumonie</option>
+                                <option value="sinusite">Sinusite</option>
+                                <option value="otite">Otite</option>
+                                <option value="asthme">Asthme</option>
+                                <option value="infections-urinaires">Infections urinaires</option>
+                                <option value="eczema">Eczéma</option>
+                                <option value="fatigue-chronique">Fatigue chronique</option>
+                                <option value="vertiges">Vertiges</option>
+                                <option value="problemes-cardiovasculaires">Problèmes cardiovasculaires</option>
+                                <option value="chirurgie-post-op">Chirurgie et période post-opératoire</option>
+                                <option value="troubles-sommeil">Troubles du sommeil</option>
+                                <option value="problemes-gastro-intestinaux">Problèmes gastro-intestinaux</option>
+                                <option value="maladies-auto-immunes">Maladies auto-immunes</option>
+                                <option value="maladies-infectieuses">Maladies infectieuses</option>
+                                <option value="maladies-chroniques-inflammatoires">Maladies chroniques inflammatoires</option>
+                                <option value="trouble-anxiete">Trouble de l'anxiété</option>
+                                <option value="complications-grossesse">Complications liées à la grossesse</option>
+                                <option value="hepatite">Hépatite</option>
+                                <option value="hernie-discale">Hernie discale</option>
+                                <option value="fibromyalgie">Fibromyalgie</option>
+                                <option value="autre">Autre (préciser à l'étape suivante)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="flex justify-between">
+                            <button type="button" class="prev-step border border-gray-300 text-gray-600 px-6 py-2 rounded-lg hover:bg-gray-50 transition duration-200" aria-label="Retourner à l'étape précédente" title="Précédent">
+                                Précédent
+                            </button>
+                            <button type="button" class="next-step bg-[#00B9AE] text-white px-6 py-2 rounded-lg hover:bg-[#00a59b] transition duration-200" aria-label="Passer à l'étape suivante" title="Suivant">
+                                Suivant
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 3: Symptoms -->
+                    <div class="form-step hidden" data-step="3">
+                        <h3 class="text-xl font-bold mb-6 text-dark-text">Symptômes</h3>
                         
                         <div class="mb-6">
                             <label class="block text-sm font-medium text-gray-700 mb-3">Sélectionnez vos symptômes</label>
                             
-                            <div class="space-y-3">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-96 overflow-y-auto border border-gray-200 rounded-lg p-4">
                                 <div class="flex items-center">
-                                    <input id="symptom-fatigue" type="checkbox" name="symptoms[]" value="fatigue" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE]">
-                                    <label for="symptom-fatigue" class="ml-2 block text-sm text-gray-700">Fatigue intense</label>
+                                    <input id="symptom-maux-tete" type="checkbox" name="symptoms[]" value="maux-tete" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE]">
+                                    <label for="symptom-maux-tete" class="ml-2 block text-sm text-gray-700">Maux de tête</label>
                                 </div>
                                 <div class="flex items-center">
-                                    <input id="symptom-headache" type="checkbox" name="symptoms[]" value="headache" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE]">
-                                    <label for="symptom-headache" class="ml-2 block text-sm text-gray-700">Maux de tête</label>
+                                    <input id="symptom-nausees" type="checkbox" name="symptoms[]" value="nausees" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE]">
+                                    <label for="symptom-nausees" class="ml-2 block text-sm text-gray-700">Nausées / Vomissements</label>
                                 </div>
                                 <div class="flex items-center">
-                                    <input id="symptom-fever" type="checkbox" name="symptoms[]" value="fever" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE]">
-                                    <label for="symptom-fever" class="ml-2 block text-sm text-gray-700">Fièvre</label>
+                                    <input id="symptom-fievre" type="checkbox" name="symptoms[]" value="fievre" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE]">
+                                    <label for="symptom-fievre" class="ml-2 block text-sm text-gray-700">Fièvre</label>
                                 </div>
                                 <div class="flex items-center">
-                                    <input id="symptom-cough" type="checkbox" name="symptoms[]" value="cough" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE]">
-                                    <label for="symptom-cough" class="ml-2 block text-sm text-gray-700">Toux</label>
+                                    <input id="symptom-diarrhee" type="checkbox" name="symptoms[]" value="diarrhee" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE]">
+                                    <label for="symptom-diarrhee" class="ml-2 block text-sm text-gray-700">Diarrhée</label>
                                 </div>
                                 <div class="flex items-center">
-                                    <input id="symptom-nausea" type="checkbox" name="symptoms[]" value="nausea" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE]">
-                                    <label for="symptom-nausea" class="ml-2 block text-sm text-gray-700">Nausées / Vomissements</label>
+                                    <input id="symptom-toux-sans-mucus" type="checkbox" name="symptoms[]" value="toux-sans-mucus" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE]">
+                                    <label for="symptom-toux-sans-mucus" class="ml-2 block text-sm text-gray-700">Toux sans mucus</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input id="symptom-toux-avec-mucus" type="checkbox" name="symptoms[]" value="toux-avec-mucus" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE]">
+                                    <label for="symptom-toux-avec-mucus" class="ml-2 block text-sm text-gray-700">Toux avec mucosités</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input id="symptom-malaise" type="checkbox" name="symptoms[]" value="malaise" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE]">
+                                    <label for="symptom-malaise" class="ml-2 block text-sm text-gray-700">Malaise</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input id="symptom-hypertension-arterielle" type="checkbox" name="symptoms[]" value="hypertension-arterielle" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE]">
+                                    <label for="symptom-hypertension-arterielle" class="ml-2 block text-sm text-gray-700">Hypertension artérielle</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input id="symptom-courbature" type="checkbox" name="symptoms[]" value="courbature" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE]">
+                                    <label for="symptom-courbature" class="ml-2 block text-sm text-gray-700">Courbature</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input id="symptom-evenement-stressant" type="checkbox" name="symptoms[]" value="evenement-stressant" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE]">
+                                    <label for="symptom-evenement-stressant" class="ml-2 block text-sm text-gray-700">Évènement stressant de la vie</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input id="symptom-troubles-sommeil" type="checkbox" name="symptoms[]" value="troubles-sommeil" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE]">
+                                    <label for="symptom-troubles-sommeil" class="ml-2 block text-sm text-gray-700">Troubles du sommeil</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input id="symptom-douleur-abdominale" type="checkbox" name="symptoms[]" value="douleur-abdominale" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE]">
+                                    <label for="symptom-douleur-abdominale" class="ml-2 block text-sm text-gray-700">Douleur abdominale</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input id="symptom-vertiges" type="checkbox" name="symptoms[]" value="vertiges" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE]">
+                                    <label for="symptom-vertiges" class="ml-2 block text-sm text-gray-700">Vertiges</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input id="symptom-douleurs-thoraciques" type="checkbox" name="symptoms[]" value="douleurs-thoraciques" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE]">
+                                    <label for="symptom-douleurs-thoraciques" class="ml-2 block text-sm text-gray-700">Douleurs thoraciques</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input id="symptom-essoufflement" type="checkbox" name="symptoms[]" value="essoufflement" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE]">
+                                    <label for="symptom-essoufflement" class="ml-2 block text-sm text-gray-700">Essoufflement</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input id="symptom-perte-appetit" type="checkbox" name="symptoms[]" value="perte-appetit" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE]">
+                                    <label for="symptom-perte-appetit" class="ml-2 block text-sm text-gray-700">Perte d'appétit</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input id="symptom-fatigue-extreme" type="checkbox" name="symptoms[]" value="fatigue-extreme" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE]">
+                                    <label for="symptom-fatigue-extreme" class="ml-2 block text-sm text-gray-700">Fatigue extrême</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input id="symptom-transpiration-excessive" type="checkbox" name="symptoms[]" value="transpiration-excessive" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE]">
+                                    <label for="symptom-transpiration-excessive" class="ml-2 block text-sm text-gray-700">Transpiration excessive</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input id="symptom-perte-poids" type="checkbox" name="symptoms[]" value="perte-poids" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE]">
+                                    <label for="symptom-perte-poids" class="ml-2 block text-sm text-gray-700">Perte de poids involontaire</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input id="symptom-eruptions-cutanees" type="checkbox" name="symptoms[]" value="eruptions-cutanees" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE]">
+                                    <label for="symptom-eruptions-cutanees" class="ml-2 block text-sm text-gray-700">Éruptions cutanées</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input id="symptom-palpitations" type="checkbox" name="symptoms[]" value="palpitations" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE]">
+                                    <label for="symptom-palpitations" class="ml-2 block text-sm text-gray-700">Palpitations cardiaques</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input id="symptom-dysphagie" type="checkbox" name="symptoms[]" value="dysphagie" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE]">
+                                    <label for="symptom-dysphagie" class="ml-2 block text-sm text-gray-700">Dysphagie</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input id="symptom-saignements" type="checkbox" name="symptoms[]" value="saignements" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE]">
+                                    <label for="symptom-saignements" class="ml-2 block text-sm text-gray-700">Saignements inhabituels</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input id="symptom-douleurs-articulaires" type="checkbox" name="symptoms[]" value="douleurs-articulaires" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE]">
+                                    <label for="symptom-douleurs-articulaires" class="ml-2 block text-sm text-gray-700">Douleurs articulaires</label>
                                 </div>
                                 <div class="flex items-center">
                                     <input id="symptom-other" type="checkbox" name="symptoms[]" value="other" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE]">
-                                    <label for="symptom-other" class="ml-2 block text-sm text-gray-700">Autres symptômes</label>
+                                    <label for="symptom-other" class="ml-2 block text-sm text-gray-700">Autre (préciser ci-dessous)</label>
                                 </div>
                             </div>
                         </div>
@@ -268,8 +418,8 @@
                             </button>
                         </div>
                     </div>
-                      <!-- Step 3: Date Range -->
-                    <div class="form-step hidden" data-step="3">
+                      <!-- Step 4: Date Range -->
+                    <div class="form-step hidden" data-step="4">
                         <h3 class="text-xl font-bold mb-6 text-dark-text">Période d'arrêt souhaitée</h3>
                         
                         <div class="space-y-4 mb-6">
@@ -326,9 +476,58 @@
                         </div>
                     </div>
                     
-                    <!-- Step 4: Medical Information -->
-                    <div class="form-step hidden" data-step="4">
+                    <!-- Step 5: Medical Information -->
+                    <div class="form-step hidden" data-step="5">
                         <h3 class="text-xl font-bold mb-6 text-dark-text">Informations médicales</h3>
+                        
+                        <div class="mb-6">
+                            <label for="doctor-location" class="block text-sm font-medium text-gray-700 mb-1">Localisation de votre médecin</label>
+                            <select id="doctor-location" name="doctorLocation" 
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00B9AE] focus:border-transparent" required>
+                                <option value="">Sélectionnez une ville</option>
+                                <option value="paris-75">Paris (75)</option>
+                                <option value="marseille-13">Marseille (13)</option>
+                                <option value="lyon-69">Lyon (69)</option>
+                                <option value="toulouse-31">Toulouse (31)</option>
+                                <option value="nice-06">Nice (06)</option>
+                                <option value="nantes-44">Nantes (44)</option>
+                                <option value="montpellier-34">Montpellier (34)</option>
+                                <option value="strasbourg-67">Strasbourg (67)</option>
+                                <option value="bordeaux-33">Bordeaux (33)</option>
+                                <option value="lille-59">Lille (59)</option>
+                                <option value="rennes-35">Rennes (35)</option>
+                                <option value="toulon-83">Toulon (83)</option>
+                                <option value="reims-51">Reims (51)</option>
+                                <option value="saint-etienne-42">Saint-Étienne (42)</option>
+                                <option value="le-havre-76">Le Havre (76)</option>
+                                <option value="dijon-21">Dijon (21)</option>
+                                <option value="grenoble-38">Grenoble (38)</option>
+                                <option value="angers-49">Angers (49)</option>
+                                <option value="villeurbanne-69">Villeurbanne (69)</option>
+                                <option value="saint-denis-97">Saint-Denis (97)</option>
+                                <option value="nimes-30">Nîmes (30)</option>
+                                <option value="aix-en-provence-13">Aix-en-Provence (13)</option>
+                                <option value="clermont-ferrand-63">Clermont-Ferrand (63)</option>
+                                <option value="le-mans-72">Le Mans (72)</option>
+                                <option value="brest-29">Brest (29)</option>
+                                <option value="tours-37">Tours (37)</option>
+                                <option value="amiens-80">Amiens (80)</option>
+                                <option value="annecy-74">Annecy (74)</option>
+                                <option value="limoges-87">Limoges (87)</option>
+                                <option value="metz-57">Metz (57)</option>
+                                <option value="boulogne-billancourt-92">Boulogne-Billancourt (92)</option>
+                                <option value="perpignan-66">Perpignan (66)</option>
+                                <option value="besancon-25">Besançon (25)</option>
+                                <option value="orleans-45">Orléans (45)</option>
+                                <option value="rouen-76">Rouen (76)</option>
+                                <option value="montreuil-93">Montreuil (93)</option>
+                                <option value="caen-14">Caen (14)</option>
+                                <option value="argenteuil-95">Argenteuil (95)</option>
+                                <option value="mulhouse-68">Mulhouse (68)</option>
+                                <option value="nancy-54">Nancy (54)</option>
+                                <option value="autre">Autre ville</option>
+                            </select>
+                        </div>
                         
                         <div class="mb-6">
                             <label for="health-center" class="block text-sm font-medium text-gray-700 mb-1">Centre de santé habituel</label>
@@ -364,8 +563,8 @@
                         </div>
                     </div>
                     
-                    <!-- Step 5: Contact Information -->
-                    <div class="form-step hidden" data-step="5">
+                    <!-- Step 6: Contact Information -->
+                    <div class="form-step hidden" data-step="6">
                         <h3 class="text-xl font-bold mb-6 text-dark-text">Informations de contact</h3>
                         
                         <div class="mb-6">
@@ -399,8 +598,8 @@
                             </button>
                         </div>
                     </div>
-                      <!-- Step 6: Verification -->
-                    <div class="form-step hidden" data-step="6">
+                      <!-- Step 7: Verification -->
+                    <div class="form-step hidden" data-step="7">
                         <h3 class="text-xl font-bold mb-6 text-dark-text">Vérification de la demande</h3>
                         
                         <div class="bg-gray-50 rounded-lg p-6 mb-6">
@@ -450,8 +649,8 @@
                         </div>
                     </div>
                     
-                    <!-- Step 7: Payment -->
-                    <div class="form-step hidden" data-step="7">
+                    <!-- Step 8: Payment -->
+                    <div class="form-step hidden" data-step="8">
                         <h3 class="text-xl font-bold mb-6 text-dark-text">Paiement de la consultation</h3>
                         
                         <div class="bg-gray-50 rounded-lg p-6 mb-6">

@@ -445,7 +445,7 @@ document.addEventListener('DOMContentLoaded', function() {
             updateSummaryStep();
             
             // Move to the payment step
-            goToStep(7); // Step 7 is the payment step
+            goToStep(8); // Step 8 is the payment step
         });
     }
     
