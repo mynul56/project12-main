@@ -243,7 +243,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const totalPrice = document.getElementById('total-price');
     
     function calculatePrice() {
-        let basePrice = 29.99;
+        let basePrice = 9.00;
         let totalPrice = basePrice;
         let daysCount = 1;
         
@@ -372,6 +372,12 @@ document.addEventListener('DOMContentLoaded', function() {
             totalPriceElement.textContent = `${totalPrice.toFixed(2)} €`;
         }
         
+        // Update final total price display in payment step
+        const finalTotalPriceElement = document.getElementById('final-total-price');
+        if (finalTotalPriceElement) {
+            finalTotalPriceElement.textContent = `${totalPrice.toFixed(2)} €`;
+        }
+        
         // Update hidden price field for form submission
         const finalPriceInput = document.getElementById('final-price');
         if (finalPriceInput) {
@@ -439,7 +445,7 @@ document.addEventListener('DOMContentLoaded', function() {
             updateSummaryStep();
             
             // Move to the payment step
-            goToStep(8); // Assume step 8 is the payment step
+            goToStep(7); // Step 7 is the payment step
         });
     }
     

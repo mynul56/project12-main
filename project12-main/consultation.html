@@ -49,6 +49,20 @@
         .progress-bar {
             transition: width 0.5s ease-in-out;
         }
+        .progress-bar.w-0 {
+            width: 0%;
+        }
+        /* Add more width classes as needed, e.g.: */
+        .progress-bar.w-10 { width: 10%; }
+        .progress-bar.w-20 { width: 20%; }
+        .progress-bar.w-30 { width: 30%; }
+        .progress-bar.w-40 { width: 40%; }
+        .progress-bar.w-50 { width: 50%; }
+        .progress-bar.w-60 { width: 60%; }
+        .progress-bar.w-70 { width: 70%; }
+        .progress-bar.w-80 { width: 80%; }
+        .progress-bar.w-90 { width: 90%; }
+        .progress-bar.w-100 { width: 100%; }
         
         /* Form control styles */
         input:focus, select:focus, textarea:focus {
@@ -101,7 +115,7 @@
                 <span class="sr-only">Menu</span>
             </button>
         </div>
-    </header>
+                    <div class="progress-bar h-full bg-[#00B9AE] rounded-full transition-all duration-300 w-0"></div>
 
     <!-- Multi Step Form Section -->
     <section id="form-section" class="py-12 sm:py-16 bg-[#E8FCFF]">
@@ -140,16 +154,12 @@
                         <div class="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center mb-1">5</div>
                         <span class="text-xs">Contact</span>
                     </button>
-                    <button class="step-indicator flex flex-col items-center text-gray-400 mx-2" data-step="6" aria-label="Étape 6: Consultation" title="Étape 6: Demande de consultation">
+                    <button class="step-indicator flex flex-col items-center text-gray-400 mx-2" data-step="6" aria-label="Étape 6: Vérification" title="Étape 6: Vérification">
                         <div class="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center mb-1">6</div>
-                        <span class="text-xs">Consultation</span>
-                    </button>
-                    <button class="step-indicator flex flex-col items-center text-gray-400 mx-2" data-step="7" aria-label="Étape 7: Vérification" title="Étape 7: Vérification">
-                        <div class="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center mb-1">7</div>
                         <span class="text-xs">Vérification</span>
                     </button>
-                    <button class="step-indicator flex flex-col items-center text-gray-400 mx-2" data-step="8" aria-label="Étape 8: Paiement" title="Étape 8: Paiement">
-                        <div class="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center mb-1">8</div>
+                    <button class="step-indicator flex flex-col items-center text-gray-400 mx-2" data-step="7" aria-label="Étape 7: Paiement" title="Étape 7: Paiement">
+                        <div class="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center mb-1">7</div>
                         <span class="text-xs">Paiement</span>
                     </button>
                 </div>
@@ -266,43 +276,22 @@
                             <div class="flex items-center">
                                 <input id="long-leave" type="checkbox" name="longLeave" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE] price-option" data-label="Arrêt longue durée">
                                 <label for="long-leave" class="ml-2 block text-sm text-gray-700">
-                                    Arrêt supérieur à 7 jours
+                                    Arrêt supérieur à 7 jours 🛌 🤒
                                     <span class="text-xs text-[#00B9AE] ml-2">(+4.99€)</span>
                                 </label>
                             </div>
                             <div class="flex items-center">
                                 <input id="past-date" type="checkbox" name="pastDate" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE] price-option" data-label="Date rétroactive">
                                 <label for="past-date" class="ml-2 block text-sm text-gray-700">
-                                    Choisir une date dans le passé (jusqu'à 14 jours)
-                                    <span class="text-xs text-[#00B9AE] ml-2">(+4.99€)</span>
-                                </label>
-                            </div>
-                            <div class="flex items-center">
-                                <input id="complex-case" type="checkbox" name="complexCase" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE] price-option" data-label="Cas complexe">
-                                <label for="complex-case" class="ml-2 block text-sm text-gray-700">
-                                    Cas complexe (plusieurs maladies, symptômes chroniques)
-                                    <span class="text-xs text-[#00B9AE] ml-2">(+9.99€)</span>
-                                </label>
-                            </div>
-                            <div class="flex items-center">
-                                <input id="urgent-option" type="checkbox" name="urgentOption" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE] price-option" data-label="Traitement urgent">
-                                <label for="urgent-option" class="ml-2 block text-sm text-gray-700">
-                                    Traitement urgent (sous 2h)
-                                    <span class="text-xs text-[#00B9AE] ml-2">(+14.99€)</span>
-                                </label>
-                            </div>
-                            <div class="flex items-center">
-                                <input id="ssn-option" type="checkbox" name="ssnOption" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE] price-option" data-label="Numéro de sécurité sociale">
-                                <label for="ssn-option" class="ml-2 block text-sm text-gray-700">
-                                    Inclure mon numéro de sécurité sociale
+                                    Choisir une date antérieure 📅 ↩
                                     <span class="text-xs text-[#00B9AE] ml-2">(+4.99€)</span>
                                 </label>
                             </div>
                         </div>
                         
-                        <div id="ssn-container" class="mb-6 hidden">
-                            <label for="ssn-number" class="block text-sm font-medium text-gray-700 mb-1">Numéro de sécurité sociale</label>
-                            <input type="text" id="ssn-number" name="ssnNumber" placeholder="15 chiffres"
+                        <div class="mb-6">
+                            <label for="ssn-number" class="block text-sm font-medium text-gray-700 mb-1">Numéro de sécurité sociale <span class="text-red-500">*</span></label>
+                            <input type="text" id="ssn-number" name="ssnNumber" placeholder="15 chiffres" required
                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00B9AE] focus:border-transparent">
                             <p class="mt-1 text-xs text-gray-500">Format: 1 XX XX XX XXX XXX XX</p>
                         </div>
@@ -410,50 +399,8 @@
                             </button>
                         </div>
                     </div>
-                      <!-- Step 6: Doctor Consultation Request -->
+                      <!-- Step 6: Verification -->
                     <div class="form-step hidden" data-step="6">
-                        <h3 class="text-xl font-bold mb-6 text-dark-text">Demande de consultation médicale</h3>
-                        
-                        <div class="bg-[#F0FDFA] p-5 rounded-lg mb-6">
-                            <div class="flex items-start">
-                                <div class="flex-shrink-0 mr-3">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#00B9AE]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                </div>
-                                <p class="text-sm text-gray-700">
-                                    En soumettant cette demande, vous sollicitez une consultation médicale en ligne. Un médecin évaluera votre situation et décidera de la pertinence de délivrer un certificat médical.
-                                </p>
-                            </div>
-                        </div>
-                        
-                        <div class="mb-6">
-                            <label for="additional-notes" class="block text-sm font-medium text-gray-700 mb-2">Informations complémentaires pour le médecin (optionnel)</label>
-                            <textarea id="additional-notes" name="additionalNotes" rows="3" placeholder="Toute information supplémentaire qui pourrait aider le médecin dans son évaluation"
-                                      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00B9AE] focus:border-transparent"></textarea>
-                        </div>
-                        
-                        <div class="mb-6">
-                            <div class="flex items-start">
-                                <div class="flex items-center h-5">
-                                    <input id="terms-agree" type="checkbox" name="termsAgree" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE]" required>
-                                </div>
-                                <div class="ml-3 text-sm">
-                                    <label for="terms-agree" class="text-gray-700">J'ai lu et j'accepte les <a href="#" class="text-[#00B9AE] hover:underline">conditions d'utilisation</a> et la <a href="#" class="text-[#00B9AE] hover:underline">politique de confidentialité</a></label>
-                                </div>
-                            </div>
-                        </div>
-                          <div class="flex justify-between">
-                            <button type="button" class="prev-step border border-gray-300 text-gray-600 px-6 py-2 rounded-lg hover:bg-gray-50 transition duration-200" aria-label="Retourner à l'étape précédente" title="Précédent">
-                                Précédent
-                            </button>
-                            <button type="button" class="next-step bg-[#00B9AE] text-white px-6 py-2 rounded-lg hover:bg-[#00a59b] transition duration-200" aria-label="Passer à l'étape suivante" title="Suivant">
-                                Suivant
-                            </button>
-                        </div>
-                    </div>
-                      <!-- Step 7: Verification -->
-                    <div class="form-step hidden" data-step="7">
                         <h3 class="text-xl font-bold mb-6 text-dark-text">Vérification de la demande</h3>
                         
                         <div class="bg-gray-50 rounded-lg p-6 mb-6">
@@ -473,7 +420,7 @@
                             <div class="space-y-3">
                                 <div class="flex justify-between">
                                     <span class="text-gray-600">Consultation médicale de base</span>
-                                    <span class="font-medium">29,99 €</span>
+                                    <span class="font-medium">9 €</span>
                                 </div>
                                 <div class="justify-between long-leave-price hidden">
                                     <span class="text-gray-600">Arrêt supérieur à 7 jours</span>
@@ -483,50 +430,15 @@
                                     <span class="text-gray-600">Date dans le passé</span>
                                     <span class="font-medium">4,99 €</span>
                                 </div>
-                                <div class="justify-between complex-case-price hidden">
-                                    <span class="text-gray-600">Cas complexe</span>
-                                    <span class="font-medium">9,99 €</span>
-                                </div>
-                                <div class="justify-between urgent-option-price hidden">
-                                    <span class="text-gray-600">Traitement urgent</span>
-                                    <span class="font-medium">14,99 €</span>
-                                </div>
-                                <div class="justify-between ssn-option-price hidden">
-                                    <span class="text-gray-600">Numéro de sécurité sociale</span>
-                                    <span class="font-medium">4,99 €</span>
-                                </div>
-                                <div class="justify-between duration-price hidden">
-                                    <span class="text-gray-600">Supplément durée</span>
-                                    <span class="duration-price-amount font-medium">0,00 €</span>
-                                </div>
                                 <div class="flex justify-between font-bold mt-2 pt-2 border-t border-gray-200">
                                     <span>Total</span>
-                                    <span id="total-price">29,99 €</span>
+                                    <span id="total-price">9,00 €</span>
                                 </div>
                             </div>
                         </div>
                         
-                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-5 mb-6">
-                            <h4 class="font-medium text-blue-800 mb-3">Important</h4>
-                            <p class="text-sm text-blue-800 mb-3">
-                                En validant cette demande, vous confirmez que :
-                            </p>
-                            <ul class="list-disc list-inside text-sm text-blue-800 space-y-2 mb-4">
-                                <li>Les informations fournies sont exactes et complètes</li>
-                                <li>Vous êtes conscient(e) que cette demande sera examinée par un médecin</li>
-                                <li>Le paiement ne sera prélevé qu'après validation médicale</li>
-                                <li>Le médecin peut refuser de délivrer le certificat s'il juge votre état non compatible</li>
-                            </ul>
-                            <div class="flex items-center">
-                                <input id="terms-agree" type="checkbox" name="termsAgree" class="w-4 h-4 text-[#00B9AE] border-gray-300 rounded focus:ring-[#00B9AE]" required>
-                                <label for="terms-agree" class="ml-2 block text-sm text-blue-800">
-                                    J'ai lu et j'accepte les conditions ci-dessus
-                                </label>
-                            </div>
-                        </div>
-
                         <!-- Store calculated price in hidden field -->
-                        <input type="hidden" id="final-price" name="finalPrice" value="29.99">
+                        <input type="hidden" id="final-price" name="finalPrice" value="9.00">
                         
                         <div class="flex justify-between">
                             <button type="button" class="prev-step border border-gray-300 text-gray-600 px-6 py-2 rounded-lg hover:bg-gray-50 transition duration-200" aria-label="Retourner à l'étape précédente" title="Précédent">
@@ -538,8 +450,8 @@
                         </div>
                     </div>
                     
-                    <!-- Step 8: Payment -->
-                    <div class="form-step hidden" data-step="8">
+                    <!-- Step 7: Payment -->
+                    <div class="form-step hidden" data-step="7">
                         <h3 class="text-xl font-bold mb-6 text-dark-text">Paiement de la consultation</h3>
                         
                         <div class="bg-gray-50 rounded-lg p-6 mb-6">
@@ -568,7 +480,7 @@
                             
                             <div class="flex justify-between font-bold mt-2 pt-2 border-t border-gray-200">
                                 <span>Total</span>
-                                <span id="final-total-price">29,99 €</span>
+                                <span id="final-total-price">9,00 €</span>
                             </div>
                         </div>
                         
